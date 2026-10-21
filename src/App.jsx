@@ -10,7 +10,7 @@ import Orders from "./pages/orders";
 import Courier from "./pages/courier";
 import EditCourier from "./pages/editCourier";
 import Map from "./pages/map";
-import New from "./pages/new";
+
 
 
 
@@ -21,21 +21,22 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
 
-          <Route
+          {/* <Route
             path="/profile"
             element={
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
             }
-          />
+          /> */}
+             <Route path="/profile" element={<Profile/>} />
           <Route path="/login2" element={<Login2 />} />
           <Route path="/edit/:id" element={<Edit />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/courier" element={<Courier />} />
           <Route path="/editCourier/:id" element={<EditCourier />} />
           <Route path="/map" element={<Map/>} />
-          <Route path="/new" element={<New  />} />
+         
   
          
         </Routes>
