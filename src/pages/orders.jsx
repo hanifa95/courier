@@ -222,7 +222,7 @@ function New() {
           <div className="container-fluid mt-3">
               <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                   <div>
-                      <h2 className="mb-0">Панель курьера</h2>
+                      <h2 className="mb-0 text-primary">Панель курьера</h2>
                       <small className="text-muted">
                           Вы: {courierPos[0].toFixed(4)}, {courierPos[1].toFixed(4)}
                       </small>
