@@ -92,6 +92,8 @@ function New() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [updatingId, setUpdatingId] = useState(null);
 
+ 
+
   // Поиск адреса
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -232,6 +234,8 @@ function New() {
     );
   }
 
+ 
+
   return (
     <div className="container-fluid mt-3">
       <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
@@ -318,6 +322,13 @@ function New() {
                 };
                 const isSelected = selectedOrder?.id === order.id;
 
+                // пролдж
+                const subtotal = Number(order.subtotal) || 0;
+                const deliveryPrice = Number(order.deliveryPrice) || 0;
+                const serviceFee = Number(order.serviceFee) || 0;
+                const totalAmount = Number(order.totalAmount) || 0;
+                const serviceFeePercent = Number(order.serviceFeePercent) || 10;
+
                 return (
                   <div
                     key={order.id}
@@ -342,6 +353,46 @@ function New() {
                           </p>
                           <p className="mb-1 small">
                             <strong>Адрес:</strong> {order.address}
+                            
+{/* Товары заказа */}
+<div className="card border-0 bg-light rounded-4 mt-3">
+  <div className="card-body p-3">
+
+    <h6 className="fw-bold mb-3">
+      <i className="fa-solid fa-box-open text-primary me-2"></i>
+      Заказанные товары
+    </h6>
+
+    {order.items && order.items.length > 0 ? (
+      order.items.map((item, index) => (
+        <div
+          key={item.id || index}
+          className="d-flex justify-content-between align-items-center border-bottom py-2"
+        >
+          <div>
+            <strong className="d-block">
+              {item.title || item.name || item.description}
+            </strong>
+
+            <small className="text-secondary">
+              {item.count || 1} шт. × {Number(item.price || 0).toLocaleString("ru-RU")} сом
+            </small>
+          </div>
+
+          <strong className="text-success">
+            {(Number(item.price || 0) * Number(item.count || 1)).toLocaleString("ru-RU")} сом
+          </strong>
+        </div>
+      ))
+    ) : (
+      <p className="text-muted small mb-0">
+        Товары не указаны
+      </p>
+    )}
+
+  </div>
+</div>
+
                           </p>
                           <div
                             className="border rounded p-2 mt-1 mb-1"
@@ -350,10 +401,62 @@ function New() {
                               background: "#f8f9fa",
                             }}
                           >
-                            <div className="d-flex justify-content-between">
-                              <span className="text-muted">Товары</span>
-                              <span>{order.totalAmount - 400} сом</span>
-                            </div>
+                         
+{/* Финансовая информация */}
+<div className="card border-0 bg-light rounded-4 mt-3">
+  <div className="card-body p-3">
+
+    <h6 className="fw-bold mb-3">
+      <i className="fa-solid fa-receipt text-primary me-2"></i>
+      Детали оплаты
+    </h6>
+
+    {/* Товары */}
+    <div className="d-flex justify-content-between mb-2">
+      <span className="text-secondary">
+        <i className="fa-solid fa-basket-shopping me-2"></i>
+        Стоимость товаров
+      </span>
+      <strong>
+        {subtotal.toLocaleString("ru-RU")} сом
+      </strong>
+    </div>
+
+    {/* Доставка */}
+    <div className="d-flex justify-content-between mb-2">
+      <span className="text-secondary">
+        <i className="fa-solid fa-motorcycle me-2"></i>
+        Доставка ({order.weight} кг)
+      </span>
+      <strong className="text-primary">
+        {deliveryPrice.toLocaleString("ru-RU")} сом
+      </strong>
+    </div>
+
+    {/* Комиссия */}
+    <div className="d-flex justify-content-between mb-2">
+      <span className="text-secondary">
+        <i className="fa-solid fa-percent me-2"></i>
+        Комиссия ({serviceFeePercent}%)
+      </span>
+      <strong className="text-danger">
+        {serviceFee.toLocaleString("ru-RU")} сом
+      </strong>
+    </div>
+
+    <hr />
+
+    {/* Итого */}
+    <div className="d-flex justify-content-between align-items-center">
+      <strong className="fs-6 ">Итого к оплате:</strong>
+      <strong className="fs-5 text-success ps-2">
+        {totalAmount.toLocaleString("ru-RU")} сом
+      </strong>
+    </div>
+
+  </div>
+</div>
+
                             <div className="d-flex justify-content-between">
                               <span className="text-muted">🚴 Доставка</span>
                               <span>400 сом</span>
